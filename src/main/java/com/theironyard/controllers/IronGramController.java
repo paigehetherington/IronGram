@@ -101,6 +101,12 @@ public class IronGramController {
         List<Photo> photosList = (ArrayList<Photo>) photos.findAll();
         List<Photo> sentPhotos = photos.findByRecipient(userS);
 
+        for (Photo p : photosList) {
+            if (p.getRecipient() == null) {
+                sentPhotos.add(p);
+            }
+        }
+
 
         for  (Photo p : sentPhotos) {
             if (p.getDateTime() == null) {
