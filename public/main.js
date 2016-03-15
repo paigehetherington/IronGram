@@ -6,6 +6,10 @@ function getPhotos(photosData) {
     }
 }
 
+//function getPhotosAjax() {
+//     $.get("/photos", getPhotos);
+//}
+
 
 function getUser(userData) {
     if (userData.length == 0) {
@@ -14,6 +18,8 @@ function getUser(userData) {
     else {
         $("#upload").show();
         $.get("/photos", getPhotos);
+//        getPhotosAjax();
+//        setInterval(getPhotosAjax, 3000);
     }
 }
 

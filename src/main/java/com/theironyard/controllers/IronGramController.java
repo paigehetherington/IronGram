@@ -8,6 +8,7 @@ import com.theironyard.services.UserRepository;
 import com.theironyard.utils.PasswordStorage;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,17 +73,21 @@ public class IronGramController {
     }
 
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    public Photo upload(MultipartFile photo, HttpSession session, HttpServletResponse response) throws Exception {
+    public Photo upload(MultipartFile photo, HttpSession session, HttpServletResponse response, String recipient, int photoLife) throws Exception {
         String username = (String) session.getAttribute("username");
         if (username == null) {
             throw new Exception("Not logged in.");
         }
-        User user = users.findByName(username);
+        User userS = users.findByName(username);
         File photoFile = File.createTempFile("image", photo.getOriginalFilename(), new File("public"));
         FileOutputStream fos = new FileOutputStream(photoFile);
         fos.write(photo.getBytes());
+        User userR = users.findByName(recipient);
 
-        Photo p = new Photo(user, null, photoFile.getName());
+
+        Photo p = new Photo(userS, userR, photoFile.getName(), photoLife);
+
+
         photos.save(p);
 
         response.sendRedirect("/");
@@ -89,8 +96,24 @@ public class IronGramController {
 
     @RequestMapping(path = "/photos", method = RequestMethod.GET)
     public List<Photo> photos() {
+        List<Photo> photosList = (ArrayList<Photo>) photos.findAll();
+
+        for  (Photo p : photosList) {
+            if (p.getDateTime() == null) {
+                p.setDateTime(LocalDateTime.now());
+                photos.save(p);
+            }
+            else if (LocalDateTime.now().isAfter(p.getDateTime().plusSeconds(p.getPhotoLife()))) {
+                photos.delete(p); //to delete from db
+                File file = new File ("/public", p.getFileName());
+                file.delete(); //to delete from disk (public file)
+
+
+
+            }
+        }
         return (List<Photo>) photos.findAll();
     }
 
-    }
+}
 
