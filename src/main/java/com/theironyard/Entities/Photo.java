@@ -1,6 +1,9 @@
 package com.theironyard.entities;
 
+import org.apache.tomcat.jni.Local;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * Created by vajrayogini on 3/15/16.
@@ -16,15 +19,22 @@ public class Photo {
     User sender;
 
     @ManyToOne
-    User recicipient;
+    User recipient;
 
     @Column(nullable = false)
     String fileName;
 
-    public Photo(User sender, User recicipient, String fileName) {
+    LocalDateTime dateTime;
+
+    @Column(nullable = false)
+    int photoLife;
+
+    public Photo(User sender, User recipient, String fileName, int photoLife) {
         this.sender = sender;
-        this.recicipient = recicipient;
+        this.recipient = recipient;
         this.fileName = fileName;
+        //
+
     }
 
     public Photo() {
@@ -38,12 +48,12 @@ public class Photo {
         this.sender = sender;
     }
 
-    public User getRecicipient() {
-        return recicipient;
+    public User getRecipient() {
+        return recipient;
     }
 
-    public void setRecicipient(User recicipient) {
-        this.recicipient = recicipient;
+    public void setRecipient(User recipient) {
+        this.recipient = recipient;
     }
 
     public String getFileName() {
@@ -52,5 +62,21 @@ public class Photo {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public int getPhotoLife() {
+        return photoLife;
+    }
+
+    public void setPhotoLife(int photoLife) {
+        this.photoLife = photoLife;
     }
 }

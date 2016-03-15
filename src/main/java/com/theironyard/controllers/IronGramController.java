@@ -95,10 +95,14 @@ public class IronGramController {
     }
 
     @RequestMapping(path = "/photos", method = RequestMethod.GET)
-    public List<Photo> photos() {
+    public List<Photo> photos(HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        User userS = users.findByName(username);
         List<Photo> photosList = (ArrayList<Photo>) photos.findAll();
+        List<Photo> sentPhotos = photos.findByRecipient(userS);
 
-        for  (Photo p : photosList) {
+
+        for  (Photo p : sentPhotos) {
             if (p.getDateTime() == null) {
                 p.setDateTime(LocalDateTime.now());
                 photos.save(p);
@@ -112,7 +116,14 @@ public class IronGramController {
 
             }
         }
-        return (List<Photo>) photos.findAll();
+        return (List<Photo>) sentPhotos;
+    }
+
+    @RequestMapping(path="/logout", method = RequestMethod.POST)
+    public void logout(HttpSession session) {
+        session.invalidate();
+
+
     }
 
 }

@@ -10,5 +10,5 @@ import java.util.List;
  * Created by vajrayogini on 3/15/16.
  */
 public interface PhotoRepository extends CrudRepository<Photo, Integer> {
-   // List<Photo> findByUser(User sender);
+   List<Photo> findByRecipient(User recipient);
 }
