@@ -21,26 +21,26 @@ public class User {
     String name;
 
     @Column(nullable = false)
-    String paswordHash;
+    String passwordHash;
 
-    public User(String name, String paswordHash) {
+    public User(String name, String passwordHash) {
         this.name = name;
-        this.paswordHash = paswordHash;
+        this.passwordHash = passwordHash;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getPaswordHash() {
-        return paswordHash;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPaswordHash(String paswordHash) {
-        this.paswordHash = paswordHash;
+    public void setPasswordHash(String paswordHash) {
+        this.passwordHash = paswordHash;
     }
 }
