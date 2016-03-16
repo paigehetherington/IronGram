@@ -92,7 +92,7 @@ public class IronGramController {
         photos.save(p);
 
         response.sendRedirect("/");
-        return p;
+        return null;
     }
 
     @RequestMapping(path = "/photos", method = RequestMethod.GET)
