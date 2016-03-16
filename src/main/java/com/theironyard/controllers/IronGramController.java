@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -126,8 +127,9 @@ public class IronGramController {
     }
 
     @RequestMapping(path="/logout", method = RequestMethod.POST)
-    public void logout(HttpSession session) {
+    public void logout(HttpSession session, HttpServletResponse response) throws IOException {
         session.invalidate();
+        response.sendRedirect("/");
 
 
     }
