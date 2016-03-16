@@ -16,6 +16,7 @@ function getUser(userData) {
         $("#login").show();
     }
     else {
+        $("#logout").show();
         $("#upload").show();
         $.get("/photos", getPhotos);
 //        getPhotosAjax();
