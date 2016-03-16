@@ -79,6 +79,13 @@ public class IronGramController {
         if (username == null) {
             throw new Exception("Not logged in.");
         }
+        
+        //to make sure uploading photo only:
+        if (!photo.getContentType().startsWith("image")) {
+            throw new Exception("You can only upload images.");
+        }
+
+
         User userS = users.findByName(username);
         File photoFile = File.createTempFile("image", photo.getOriginalFilename(), new File("public"));
         FileOutputStream fos = new FileOutputStream(photoFile);

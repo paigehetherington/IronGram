@@ -33,6 +33,7 @@ public class Photo {
         this.sender = sender;
         this.recipient = recipient;
         this.fileName = fileName;
+        this.photoLife = photoLife;
         //
 
     }
